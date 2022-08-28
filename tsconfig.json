@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": "./",
+    "downlevelIteration": true,
+    "target": "es5",
+    "module": "esNext",
+    "lib": ["es2018", "dom"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "rootDirs": [
+      "src"
+    ],
+    "types": [
+      "react"
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "typeRoots": ["types", "node_modules/@types"]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
