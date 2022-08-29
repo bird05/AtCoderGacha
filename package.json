@@ -45,7 +45,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
-    "atcoder-gacha01": "file:./pkg",
+    "atcoder-gacha01": "./pkg",
     "axios": "^0.27.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
