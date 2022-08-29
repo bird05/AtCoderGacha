@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import * as wasm from "atcoder-gacha01";
+//import * as wasm from "atcoder-gacha01";
 import useMedia from "use-media";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // ビルトインフック
