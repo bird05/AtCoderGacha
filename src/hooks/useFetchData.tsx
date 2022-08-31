@@ -243,6 +243,12 @@ export const useFetchAtcoder = () => {
     }
   }
   const setRateToStore = async (arr: any, target: string) => { // storeに保存
+    // 取得出来なかった場合は強制的に黒にする
+    if(arr.status==='error'){
+      arr.color='black';
+      arr.rating=0;
+    }
+    
     if(target==="user") dispatch(setUserRate(arr));
     else dispatch(setRivalRate(arr));
     return arr;
