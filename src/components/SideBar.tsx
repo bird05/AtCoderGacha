@@ -121,6 +121,19 @@ export const SideBar = memo((props:any) => {
     display: table-cell;
     vertical-align: middle;
   `
+  // 以下3つは下にあると不具合があるためここに移動
+  const SDivDirection = styled.div`
+    display: flex;
+    flex-direction: row;
+  `;
+  const SDivFlexItem = styled.div`
+    width: 100%;
+  `;
+  const SDivFlexItemLLine = styled.div`
+    width: 100%;
+    margin-left: 5px;
+    border-left: 1px solid #a9b4be;
+  `;
 
   // 関数==============================
   // unix時間の計算
@@ -411,7 +424,7 @@ export const SideBar = memo((props:any) => {
             : <>{Object.keys(candidateProblem).length}</>}
           </Stack>
             
-          </SDivNoMargin>
+        </SDivNoMargin>
         <SHrNoPaddingT></SHrNoPaddingT>
 
         <Stack direction="row" alignItems="center">
@@ -554,18 +567,6 @@ const SH4 = styled.h4`
   margin-top:0;
   margin-bottom:0;
   text-decoration:underline;
-`;
-const SDivDirection = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-const SDivFlexItem = styled.div`
-  width: 100%;
-`;
-const SDivFlexItemLLine = styled.div`
-  width: 100%;
-  margin-left: 5px;
-  border-left: 1px solid #a9b4be;
 `;
 const SDivPadding = styled.div`
   width: 100%;
