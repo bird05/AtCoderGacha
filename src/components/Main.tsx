@@ -7,6 +7,7 @@ import { GachaContentAll } from './GachaContentAll';
 import { useSelector } from '../store/store';
 import { useDispatch, shallowEqual } from 'react-redux';
 import { setGachaDisplay } from '../store/displaySlice';
+import { setGachaType, setDiff } from '../store/settingInfoSlice';
 // hooks
 // MUI
 // ビルトインフック
@@ -30,12 +31,16 @@ export const Main = (props:any) => {
   `
   // 関数==============================
   const toGachaContetAll = () => {
-    dispatch(setGachaDisplay("gachaContentAll"));
+    dispatch(setGachaDisplay("content"));
   }
   const toGacha = () => {
     dispatch(setGachaDisplay("gacha"));
   }
   // useEffect==============================
+
+
+  //dispatch(setGachaType("既AC"));
+  //dispatch(setDiff("緑"));
 
   // DOM==============================
   //console.log("main");

@@ -2,12 +2,39 @@
 import styled from "@emotion/styled";
 // Redux
 import { useSelector } from '../../store/store';
-import { useDispatch } from 'react-redux';
-import { setUserID, setUserRate } from '../../store/userInfoSlice';
-import { setGachaType, setDiff } from '../../store/settingInfoSlice';
+import { shallowEqual } from 'react-redux';
+//import { setUserID, setUserRate } from '../../store/userInfoSlice';
+//import { setGachaType, setDiff } from '../../store/settingInfoSlice';
+// ビルトインフック
+import { useEffect } from 'react';
 
 export const DiffSetting = (props:any) => {
-  const { onChangeDiffSetting} = props;
+  const { onChangeDiffSetting } = props;
+
+  const settedDiff = useSelector((state) => state.setting.diff, shallowEqual);
+
+  // 画面サイズ変更時に選択中のdiffを表示する
+  const setCurrentDiff = () => {
+    let element = document.getElementById("diffSelect") as HTMLSelectElement;
+    let options = element.options;
+    if(settedDiff==="全?") options[0].selected=true;
+    else if(settedDiff==="全") options[1].selected=true;
+    else if(settedDiff==="灰") options[2].selected=true;
+    else if(settedDiff==="茶") options[3].selected=true;
+    else if(settedDiff==="緑") options[4].selected=true;
+    else if(settedDiff==="水") options[5].selected=true;
+    else if(settedDiff==="青") options[6].selected=true;
+    else if(settedDiff==="黄") options[7].selected=true;
+    else if(settedDiff==="橙") options[8].selected=true;
+    else if(settedDiff==="赤") options[9].selected=true;
+    else if(settedDiff==="銅") options[10].selected=true;
+    else if(settedDiff==="銀") options[11].selected=true;
+    else if(settedDiff==="金") options[12].selected=true;
+  };
+
+  useEffect(() => {
+    setCurrentDiff();
+  },[settedDiff])
 
   // DOM==============================
   return (
