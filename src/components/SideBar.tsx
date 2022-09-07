@@ -442,7 +442,7 @@ export const SideBar = memo((props:any) => {
       else _period='0_7';
     }
 
-    const params = createSearchParams({
+    let params = createSearchParams({
       disp: _gDisp,
       uid: _uID,
       rid: _rID,
@@ -451,6 +451,7 @@ export const SideBar = memo((props:any) => {
       period: _period,
     }).toString();
     console.log(params);
+    if(params==='disp=gacha&uid=&rid=&type=0&diff=1&period=0_7') params='';
     navigate(`/?${params}`, { replace: false });
   }
   useEffect(() => {
