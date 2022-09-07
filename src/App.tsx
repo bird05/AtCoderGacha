@@ -52,10 +52,8 @@ const App = memo(() => {
           <SDivSide>
             <Routes>
               <Route path="/" element={<SideBar isWide={isWide}/>} />
-              {/*<Route path="/:userID_rivalID" element={<SideBar isWide={isWide}/>} />*/}
               <Route path="/*" element={<SideBar isWide={isWide}/>} />
             </Routes>
-            {/*<SideBar isWide={isWide}/>*/}
           </SDivSide>
           <SDivMain>
             <Main isWide={isWide}/>

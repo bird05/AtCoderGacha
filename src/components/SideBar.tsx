@@ -1,5 +1,4 @@
 import useMedia from "use-media";
-//import { useParams } from "react-router-dom";
 import { useNavigate, createSearchParams, useSearchParams } from "react-router-dom";
 // CSS
 import styled from "@emotion/styled";
@@ -16,7 +15,6 @@ import { setGachaType, setDiff } from '../store/settingInfoSlice';
 import { setPeriod } from '../store/settingInfoSlice';
 import { setUserAcHistory, setUserAcFetchState } from '../store/userAcSlice';
 import { setRivalAcHistory, setRivalAcFetchState } from '../store/rivalAcSlice';
-
 // ビルトインフック
 import { useState, useEffect ,memo, useCallback} from 'react';
 // Custom Hooks
@@ -24,7 +22,6 @@ import { useFetchAtcoder } from '../hooks/useFetchData';
 // Material UI
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 // 外部コンポーネント
 import { GachaTypeSetting } from './GachaSetting/GachaTypeSetting';
 import { DiffSetting } from './GachaSetting/DiffSetting';
@@ -33,7 +30,6 @@ import type { problem_type, rate_type } from "../types/typeFormat";
 import { diff_mark_user } from "./Functions";
 
 export const SideBar = memo((props:any) => {
-  //const { userID_rivalID } = useParams();
   const {isWide} = props;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -43,8 +39,7 @@ export const SideBar = memo((props:any) => {
   const type_param = searchParams.get("type");
   const diff_param = searchParams.get("diff");
   const period_param = searchParams.get("period");
-  //disp=disp&id=user%252Cuser&type=type&diff=diff&period=0
-  //const isWide = useMedia({ minWidth: "1000px" });
+
   // 型定義==============================
   interface Problem_list {
     [index: string]: problem_type
@@ -92,10 +87,10 @@ export const SideBar = memo((props:any) => {
   
   // color==============================
   //const cyan="#00C0C0";
-  const rate_c=userRate.color;//rate.color;
-  const rate_c_rival=rivalRate.color;//rateRival.color;
-  const ratio=(userRate.rating%400)/4;//(rate.rating%400)/4;
-  const ratio_rival=(rivalRate.rating%400)/4;//(rateRival.rating%400)/4;
+  const rate_c=userRate.color;
+  const rate_c_rival=rivalRate.color;
+  const ratio=(userRate.rating%400)/4;
+  const ratio_rival=(rivalRate.rating%400)/4;
 
   // Styled CSS==============================
   const SDivCoverOuter = styled.div`
@@ -272,52 +267,15 @@ export const SideBar = memo((props:any) => {
   const onChangeGachaType: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     dispatch(setGachaType(e.target.value));
   }
-  // 画面サイズ変更時に選択中のガチャタイプを表示する
-  /*
-  const setCurrentType = () => {
-    let element = document.getElementById("gachaTypeSelect") as HTMLSelectElement;
-    let options = element.options;
-    if(gachaType==="全部") options[0].selected=true;
-    else if(gachaType==="既AC") options[1].selected=true;
-    else if(gachaType==="未AC") options[2].selected=true;
-    else if(gachaType==="ライバル") options[3].selected=true;
-  };
-  */
   // 検索条件diffの変更時に登録する
   const onChangeDiffSetting: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     dispatch(setDiff(e.target.value));
   }
-  // 画面サイズ変更時に選択中のdiffを表示する
-  /*
-  const setCurrentDiff = () => {
-    let element = document.getElementById("diffSelect") as HTMLSelectElement;
-    let options = element.options;
-    if(settedDiff==="全?") options[0].selected=true;
-    else if(settedDiff==="全") options[1].selected=true;
-    else if(settedDiff==="灰") options[2].selected=true;
-    else if(settedDiff==="茶") options[3].selected=true;
-    else if(settedDiff==="緑") options[4].selected=true;
-    else if(settedDiff==="水") options[5].selected=true;
-    else if(settedDiff==="青") options[6].selected=true;
-    else if(settedDiff==="黄") options[7].selected=true;
-    else if(settedDiff==="橙") options[8].selected=true;
-    else if(settedDiff==="赤") options[9].selected=true;
-    else if(settedDiff==="銅") options[10].selected=true;
-    else if(settedDiff==="銀") options[11].selected=true;
-    else if(settedDiff==="金") options[12].selected=true;
-  };
-  */
 
   const entered_userID = (input_userID:string) => {
-    //fetchUserRate(input_userID,"user");
-    //fetchAcData(input_userID,"user");
-    //dispatch(setUserAcFetchState(1));
     dispatch(setUserID(input_userID));
   }
   const entered_rivalID = (input_rivalID:string) => {
-    //fetchUserRate(input_rivalID,"rival");
-    //fetchAcData(input_rivalID,"rival");
-    //dispatch(setRivalAcFetchState(1));
     dispatch(setRivalID(input_rivalID));
   }
   const selected_gachaType = (cuType: string) => {
@@ -369,54 +327,8 @@ export const SideBar = memo((props:any) => {
     else if(idx===12) return "金";
     return "全";
   }
-  // url変更
-  const url_add = (_gDisp:string,_uID:string,_rID:string,_gType:number,_diff:number,s_period:number,e_period:number) => {
-    // url上の現在の設定値を確認
-    let path=location.pathname.slice(1); // 左1文字('/')を削除
-    const buf:string[]=path.split('%2F');
-    console.log(buf);
-    // ここがうまくいっていない
-    // 現在のままにするものを上書き
-    if(buf[0]!=null) if(_gDisp==='') _gDisp=buf[0];
-    if(buf[1]!=null){
-      const names=buf[1].split('%2C');
-      if(_uID==='') if(names[0]!=null) _uID=names[0];
-      if(_rID==='') if(names[1]!=null) _rID=names[1];
-    }
-    if(buf[2]!=null) if(_gType===-1) _gType=Number(buf[3]);
-    if(buf[3]!=null) if(_diff===-1) _diff=Number(buf[4]);
-    if(buf[4]!=null){
-      const periods=buf[4].split('_');
-      if(periods[0]!=null) if(s_period===-1) s_period=Number(periods[0]);
-      if(periods[1]!=null) if(e_period===-1) e_period=Number(periods[1]);
-    }
-
-    // 画面,ユーザー,タイプ,Diff,Period
-    let url:string = "/";
-    url+=_gDisp;
-    url+='%2F'+_uID+"%2C"+_rID;
-    url+='%2F'+_gType;
-    url+='%2F'+_diff;
-    url+='%2F'+s_period+'_'+e_period;
-
-    let url0:string = "/";
-    url0+='gacha';
-    url0+='%2F'+"%2C";
-    url0+='%2F'+'0';
-    url0+='%2F'+'1';
-    url0+='%2F'+'0_7';
-    url0+='dummy';
-
-    //if(url!=url0 && url!=location.pathname) history.replaceState('','',url);
-    /*
-    if(url!=""){
-      //history.pushState('','',url);
-      history.replaceState('','',url);
-    }
-    */
-  }
   // 状態変化をurlに反映する
-  const url_add2 = (_gDisp:string,_uID:string,_rID:string,_gType:number,_diff:number,_period:string) => {
+  const url_add = (_gDisp:string,_uID:string,_rID:string,_gType:number,_diff:number,_period:string) => {
     if(_gDisp===''){
       if(disp_param!=null) _gDisp=disp_param;
       else _gDisp='gacha';
@@ -450,7 +362,6 @@ export const SideBar = memo((props:any) => {
       diff: ''+_diff,
       period: _period,
     }).toString();
-    console.log(params);
     
     if(params==='disp=gacha&uid=&rid=&type=0&diff=1&period=0_7'){
       if(disp_param==null && uid_param==null && rid_param==null && type_param==null && diff_param==null && period_param==null) params='';
@@ -458,128 +369,28 @@ export const SideBar = memo((props:any) => {
     navigate(`/?${params}`, { replace: false });
   }
   useEffect(() => {
-    console.log(gachaDisplay);
-    if(gachaDisplay!=null) url_add2(gachaDisplay,'','',-1,-1,'');
+    if(gachaDisplay!=null) url_add(gachaDisplay,'','',-1,-1,'');
   },[gachaDisplay])
   useEffect(() => {
-    console.log(userID);
-    if(userID!=null) url_add2('',userID,'',-1,-1,'');
+    if(userID!=null) url_add('',userID,'',-1,-1,'');
   },[userID])
   useEffect(() => {
-    console.log(rivalID);
-    if(rivalID!=null) url_add2('','',rivalID,-1,-1,'');
+    if(rivalID!=null) url_add('','',rivalID,-1,-1,'');
   },[rivalID])
   useEffect(() => {
-    console.log(gachaType);
-    if(gachaType!=null) url_add2('','','',gachaType_str_to_idx(gachaType),-1,'');
+    if(gachaType!=null) url_add('','','',gachaType_str_to_idx(gachaType),-1,'');
   },[gachaType])
   useEffect(() => {
-    console.log(settedDiff);
-    if(settedDiff!=null) url_add2('','','',-1,settedDiff_str_to_idx(settedDiff),'');
+    if(settedDiff!=null) url_add('','','',-1,settedDiff_str_to_idx(settedDiff),'');
   },[settedDiff])
   useEffect(() => {
-    console.log(period);
     if(period[0]!=null && period[1]!=null){
-      url_add2('','','',-1,-1,period[0]+'_'+period[1]);
+      url_add('','','',-1,-1,period[0]+'_'+period[1]);
     }
   },[period])
 
-  // urlから条件取り込み
-  const contidion_read = () => {
-    let path=location.pathname.slice(1); // 左1文字('/')を削除
-    console.log(path);
-    // デフォルトの条件
-    let g_disp:string = 'gacha';
-    let u_name:string = '';
-    let r_name:string = '';
-    let g_type:number = 0;
-    let _diff:number = 1;
-    let period_s:number = 0;
-    let period_e:number = 7;
-
-    // 条件を適正化して設定
-    const buf:string[]=path.split('%2F');
-    // 1.gacha/content
-    if(buf[0]!=null){
-      if(buf[0]==='content'){
-        g_disp='content';
-        dispatch(setGachaDisplay('content'));
-      }
-    }
-    // 2.user_name
-    if(buf[1]!=null){
-      const names=buf[1].split('%2C');
-      if(names[0]!=null && names[0]!="" && names[0]!=userID){u_name=names[0]; dispatch(setUserID(u_name));}
-      if(names[1]!=null && names[1]!="" && names[1]!=rivalID){r_name=names[1]; dispatch(setRivalID(r_name));}
-    }
-    // 3.ガチャタイプ
-    if(buf[2]!=null){
-      let gacha_idx:number = 0;
-      // 数値に変換可能な場合
-      if(isNumeric(buf[2])){
-        g_type=Number(buf[2]);
-        if(gacha_idx<0 || 3<gacha_idx) gacha_idx=0;
-        dispatch(setGachaType(gachaType_idx_to_str(gacha_idx)));
-      }
-    }
-    // 4.Diff
-    if(buf[3]!=null){
-      // 数値に変換可能な場合
-      if(isNumeric(buf[3])){
-        _diff=Number(buf[3]);
-        if(_diff<0 || 12<_diff) _diff=1;
-        dispatch(setDiff(settedDiff_idx_to_str(_diff)));
-        console.log(_diff);
-        console.log(settedDiff_idx_to_str(_diff));
-      }
-    }
-    // 5.Period
-    if(buf[4]!=null){
-      const periods=buf[4].split('_');
-      if(periods[0]!=null && periods[1]!=null){
-        // 数値に変換可能な場合
-        if(isNumeric(periods[0]) && isNumeric(periods[1])){
-          period_s=Number(periods[0]);
-          period_e=Number(periods[1]);
-          // 開始終了が正しい場合
-          if(0<=period_s && period_e<=7 && period_s<period_e){
-            dispatch(setPeriod([period_s,period_e]));
-          }
-        }
-      }
-    }
-
-    url_add(g_disp,u_name,r_name,g_type,_diff,period_s,period_e);
-  }
   // useEffect==============================
   useEffect(() => { // ページ読み込み時に一度だけ実行
-    /*
-    let path=location.pathname.slice(1); // 左1文字('/')を削除
-    if(path!=''){
-      const buf=path.split('%2C');
-      if(buf.length<5){
-        const url: string = "";
-        url+="gacha";
-        url+="user_name";
-        url+=("%2F0"); // ガチャタイプ
-        url+=("%2F1"); // Diff
-        url+=("%2F0%2C7"); // Period
-      }
-      if(buf[0] && buf[0]!="" && buf[0]!=userID) dispatch(setUserID(buf[0]));
-      if(buf[1] && buf[1]!="" && buf[1]!=rivalID) dispatch(setRivalID(buf[1]));
-    }
-    */
-    /*
-    if(userID_rivalID){
-      const buf=userID_rivalID.split(',');
-      if(buf[0] && buf[0]!="" && buf[0]!=userID) dispatch(setUserID(buf[0]));
-      if(buf[1] && buf[1]!="" && buf[1]!=rivalID) dispatch(setRivalID(buf[1]));
-    }
-    */
-    //contidion_read();
-    //setCurrentType();
-    //setCurrentDiff();
-
     // TODO:不正文字への対応
     if(disp_param!=null) dispatch(setGachaDisplay(disp_param));
     if(uid_param!=null) dispatch(setUserID(uid_param));
@@ -593,13 +404,6 @@ export const SideBar = memo((props:any) => {
     
     if(!alreadyFetched) fetchProblemContestData(); // 全問題、コンテスト読み込み
   }, []);
-  /*
-  useEffect(() => { // 問題読み込み完了時に一度だけ実行
-    if(!alreadyFetched){
-      dispatch(setCandidateProblem(allProblem)); // これは実行されていない気がする
-    }
-  }, [allProblem]);
-  */
   useEffect(() => { // 候補問題の更新
     if(alreadyFetched) selectCandidate();
   }, [alreadyFetched,allProblem,allContest,userAcHistory,onlyRivalAc,gachaType,settedDiff,period]);
@@ -616,8 +420,6 @@ export const SideBar = memo((props:any) => {
 
   useEffect(() => {
     if(userID!="" && userID!=fetchedUserID) dispatch(setUserAcFetchState(1));
-    //url_add(gachaDisplay,userID,rivalID,gachaType_str_to_idx(gachaType),settedDiff_str_to_idx(settedDiff),period[0],period[1]);
-    url_add('',userID,'',-1,-1,-1,-1);
     if(!userID || userID===""){ // userIDがなければAcHistory,Rateをリセット
       dispatch(setUserAcHistory({}));
       dispatch(setUserRate({color:"black", rating:0} as rate_type));
@@ -625,8 +427,6 @@ export const SideBar = memo((props:any) => {
   },[userID])
   useEffect(() => {
     if(rivalID!="" && rivalID!=fetchedRivalID) dispatch(setRivalAcFetchState(1));
-    //url_add(gachaDisplay,userID,rivalID,gachaType_str_to_idx(gachaType),settedDiff_str_to_idx(settedDiff),period[0],period[1]);
-    url_add('','',rivalID,-1,-1,-1,-1);
     if(!rivalID || rivalID===""){ // rivalIDがなければAcHistory,Rateをリセット
       dispatch(setRivalAcHistory({}));
       dispatch(setRivalRate({color:"black", rating:0} as rate_type));
@@ -657,26 +457,12 @@ export const SideBar = memo((props:any) => {
     
   },[alreadyFetched, rivalID, userAcFetchState, rivalAcFetchState]);
   
-  const anc_test = () => {
-    console.log("anc");
-    console.log(userAcFetchState);
-    console.log(rivalAcFetchState);
-    console.log(userID);
-    console.log(rivalID);
-  }
   // DOM==============================
-  //<Box sx={{display:'flex'}}><CircularProgress /></Box>
   //console.log("SideBar");
   return (
     <>
-      {/*
-      {userID_rivalID}
-      <button onClick={anc_test}>anc</button>
-      */}
-
       {isWide?
       <SDivOuter>
-        {/*<SDivNoMargin>Problems:{Object.keys(candidateProblem).length}</SDivNoMargin>*/}
         <SDivNoMargin>
           <Stack direction="row" alignItems="center">
           Problems:
@@ -694,16 +480,6 @@ export const SideBar = memo((props:any) => {
           : <></>}
         </Stack>
         <InputUserInfo name={userID} entered_userID={entered_userID} rate={userRate.rating} uniqueAC={Object.keys(userAcHistory).length}/>
-        {/*
-        <SH3>User Info</SH3>
-        <SDivCoverOuter>
-          <InputUserInfo name={userID} entered_userID={entered_userID} rate_c={rate_c} ratio={ratio} rate={userRate.rating} uniqueAC={Object.keys(userAcHistory).length}/>
-          {userAcFetchState===0 || userAcFetchState===3?<></>:
-          <SDivCoverInner>
-            <SDivText>{userAcFetchState===1?"Waiting...":"Fetching Submission Data"}</SDivText>
-          </SDivCoverInner>}
-        </SDivCoverOuter>        
-        */}
 
         <SHrNoPaddingT></SHrNoPaddingT>
 
@@ -714,41 +490,16 @@ export const SideBar = memo((props:any) => {
           : <></>}
         </Stack>
         <InputRivalInfo name={rivalID} entered_rivalID={entered_rivalID} rate={rivalRate.rating} uniqueAC={Object.keys(rivalAcHistory).length}/>
-        {/*
-        <SH3>Rival Info</SH3>
-        <SDivCoverOuter>
-          <InputRivalInfo name={rivalID} entered_rivalID={entered_rivalID} rate_c={rate_c_rival} ratio={ratio_rival} rate={rivalRate.rating} uniqueAC={Object.keys(rivalAcHistory).length}/>
-          {rivalAcFetchState===0 || rivalAcFetchState===3?<></>:
-          <SDivCoverInner>
-            <SDivText>{rivalAcFetchState===1?"Waiting...":"Fetching Submission Data"}</SDivText>
-          </SDivCoverInner>}
-        </SDivCoverOuter>
-        */}
 
         <SHrNoPaddingT></SHrNoPaddingT>
         <div>
           <SH4>Gacha Setting</SH4>
-          {/*<SettingGachaType onChangeGachaType={onChangeGachaType}/>*/}
           <GachaTypeSetting onChangeGachaType={onChangeGachaType}/>
           <SHr></SHr>
           <DiffSetting onChangeDiffSetting={onChangeDiffSetting}/>
           <SHr></SHr>
           <PeriodSetting gachaType={gachaType}/>
-          {/*
-          <SDivDisableBgcol>
-            <SDivCoverOuterPeriod>
-              <PeriodSetting gachaType={gachaType}/>
-              {
-              gachaType==="既AC"?
-              <></>
-              :
-              <SDivCoverInner>
-                <SDivText>Valid only in userAC</SDivText>
-              </SDivCoverInner>
-              }
-            </SDivCoverOuterPeriod>
-          </SDivDisableBgcol>
-          */}
+
           <SHrNoPaddingB></SHrNoPaddingB>
         </div>
       </SDivOuter>
@@ -761,7 +512,6 @@ export const SideBar = memo((props:any) => {
           : <>{Object.keys(candidateProblem).length}</>}
         </Stack>
 
-        {/*<div>Problems:{Object.keys(candidateProblem).length}</div>*/}
         <SHrNoPaddingT></SHrNoPaddingT>
         <SDivDirection>
           <SDivFlexItem>
@@ -789,25 +539,17 @@ export const SideBar = memo((props:any) => {
           <SDivFlexItemLLine>
             <SDivPadding>
               <SH4>Gacha Setting</SH4>
-              {/*<SettingGachaType onChangeGachaType={onChangeGachaType}/>*/}
               <GachaTypeSetting onChangeGachaType={onChangeGachaType}/>
               <SHr></SHr>
               <DiffSetting onChangeDiffSetting={onChangeDiffSetting}/>
               <SHr></SHr>
               <PeriodSetting gachaType={gachaType}/>
-              {/*
-              <SDivDisableBgcol>
-                <SDivCoverOuterPeriod>
-                  <PeriodSetting gachaType={gachaType}/>
-                </SDivCoverOuterPeriod>
-              </SDivDisableBgcol>
-                */}
             </SDivPadding>
           </SDivFlexItemLLine>
+
         </SDivDirection>
         <SHrNoPaddingTB></SHrNoPaddingTB>
         
-
       </SDivOuter>
       }
     </>
@@ -910,22 +652,6 @@ const InputRivalInfo = memo((props:any) => {
         <div>Rate:{diff_mark_user(rate)}{rate}</div>
         <div>Unique AC:{uniqueAC}</div>
       </Stack>
-    </>
-  );
-});
-
-// ガチャタイプ選択
-const SettingGachaType = memo((props:any) => {
-  const { onChangeGachaType } = props;
-  return (
-    <>
-      Gacha Type:
-      <select id="gachaTypeSelect" onChange={onChangeGachaType}>
-        <option value="全部">All</option>
-        <option value="既AC">userAC</option>
-        <option value="未AC">All - userAC</option>
-        <option value="ライバル">rivalAC - userAC</option>
-      </select>
     </>
   );
 });
