@@ -42,8 +42,8 @@ export const PeriodSetting = memo((props:any) => {
     set_input_period(newValue as number[]);
   }
   const handleChangeCommited = (event: React.SyntheticEvent | Event, newValue: number | number[]) => {
-    const res=newValue as number[];
-    dispatch(setPeriod(res));
+    let res=newValue as number[];
+    dispatch(setPeriod([...res]));
   }
   // DOM==============================
   return (
