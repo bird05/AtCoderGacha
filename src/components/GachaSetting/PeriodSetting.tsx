@@ -39,12 +39,16 @@ export const PeriodSetting = memo((props:any) => {
   const [input_period,set_input_period] = useState([...period]);
   // 関数==============================
   const handleChange = (event: Event, newValue: number | number[]) => {
-    set_input_period(newValue as number[]);
+    let res=newValue as number[];
+    if(res[0]!=input_period[0] || res[1]!=input_period[1]) dispatch(setPeriod([...res]));
+    set_input_period(res);
   }
+  /*
   const handleChangeCommited = (event: React.SyntheticEvent | Event, newValue: number | number[]) => {
     let res=newValue as number[];
     dispatch(setPeriod([...res]));
   }
+  */
   // DOM==============================
   return (
     <>
@@ -58,7 +62,7 @@ export const PeriodSetting = memo((props:any) => {
           getAriaLabel={() => 'Period range'}
           value={input_period}
           onChange={handleChange}
-          onChangeCommitted={handleChangeCommited}
+          //onChangeCommitted={handleChangeCommited}
           valueLabelDisplay="auto"
           valueLabelFormat={valuetext}
           marks={marks}
