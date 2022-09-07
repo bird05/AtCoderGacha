@@ -451,7 +451,10 @@ export const SideBar = memo((props:any) => {
       period: _period,
     }).toString();
     console.log(params);
-    if(params==='disp=gacha&uid=&rid=&type=0&diff=1&period=0_7') params='';
+    
+    if(params==='disp=gacha&uid=&rid=&type=0&diff=1&period=0_7'){
+      if(disp_param==null && uid_param==null && rid_param==null && type_param==null && diff_param==null && period_param==null) params='';
+    }
     navigate(`/?${params}`, { replace: false });
   }
   useEffect(() => {
