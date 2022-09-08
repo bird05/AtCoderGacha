@@ -54,7 +54,7 @@ export const Gacha = (props:any) => {
   // アニメーション
   const shift = keyframes`
   0%{
-    left: ${alreadyDraw?"0px":"1300px"};
+    left: ${alreadyDraw?"0px":"max(110vw, 1300px)"};
   }
   100%{
     left: 0px;
@@ -64,7 +64,7 @@ export const Gacha = (props:any) => {
     delay: number;
   }>`
   position: relative;
-  left: 1300px;
+  left: max(110vw, 1300px);
   animation-name: ${shift};
   animation-duration: 1s;
   animation-timing-function: ease-out;
