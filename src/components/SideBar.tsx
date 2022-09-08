@@ -391,15 +391,14 @@ export const SideBar = memo((props:any) => {
 
   // useEffect==============================
   useEffect(() => { // ページ読み込み時に一度だけ実行
-    // TODO:不正文字への対応
-    if(disp_param!=null) dispatch(setGachaDisplay(disp_param));
+    if(disp_param!=null) if(disp_param==='gacha'||disp_param==='content')dispatch(setGachaDisplay(disp_param));
     if(uid_param!=null) dispatch(setUserID(uid_param));
     if(rid_param!=null) dispatch(setRivalID(rid_param));
-    if(type_param!=null) dispatch(setGachaType(gachaType_idx_to_str(Number(type_param)))); // 表示はまだ
-    if(diff_param!=null) dispatch(setDiff(settedDiff_idx_to_str(Number(diff_param)))); // こっちは表示もされる
+    if(type_param!=null) if(0<=Number(type_param)&&Number(type_param)<=3) dispatch(setGachaType(gachaType_idx_to_str(Number(type_param))));
+    if(diff_param!=null) if(0<=Number(diff_param)&&Number(diff_param)<=12) dispatch(setDiff(settedDiff_idx_to_str(Number(diff_param))));
     if(period_param!=null){
       const buf=period_param.split('_');
-      if(buf[0]!=null&&buf[1]!=null) dispatch(setPeriod([Number(buf[0]),Number(buf[1])]));
+      if(buf[0]!=null&&buf[1]!=null) if(0<=Number(buf[0]) && Number(buf[0])<=7 && 0<=Number(buf[1]) && Number(buf[1])<=7 && Number(buf[0])<=Number(buf[1])) dispatch(setPeriod([Number(buf[0]),Number(buf[1])]));
     }
     
     if(!alreadyFetched) fetchProblemContestData(); // 全問題、コンテスト読み込み
