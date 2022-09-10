@@ -7,7 +7,7 @@ import { SDivNowrap, SSpanInlineBlock, SDivDisableText } from '../css/CommonCSS'
 // Redux
 import { useSelector } from '../store/store';
 import { useDispatch, shallowEqual } from 'react-redux';
-import { setGachaDisplay } from '../store/displaySlice';
+import { setGachaDisplay, setMainElemHeight } from '../store/displaySlice';
 import { setCandidateProblem } from '../store/candidateProblemSlice';
 import { setUserID, setFetchedUserID, setUserRate } from '../store/userInfoSlice';
 import { setRivalID, setFetchedRivalID, setRivalRate } from '../store/rivalInfoSlice';
@@ -391,6 +391,14 @@ export const SideBar = memo((props:any) => {
 
   // useEffect==============================
   useEffect(() => { // ページ読み込み時に一度だけ実行
+    // サイドバーの高さを取得
+    const outer_elem = window.document.getElementById('side_outer');
+    //console.log(outer_elem);
+    let h_outer:number = 0;
+    if(outer_elem!=null) h_outer=outer_elem.clientHeight; // .offsetHeight
+    //console.log(h_outer);
+    dispatch(setMainElemHeight(h_outer));
+
     if(disp_param!=null) if(disp_param==='gacha'||disp_param==='content')dispatch(setGachaDisplay(disp_param));
     if(uid_param!=null) dispatch(setUserID(uid_param));
     if(rid_param!=null) dispatch(setRivalID(rid_param));
@@ -455,13 +463,13 @@ export const SideBar = memo((props:any) => {
     }
     
   },[alreadyFetched, rivalID, userAcFetchState, rivalAcFetchState]);
-  
+
   // DOM==============================
   //console.log("SideBar");
   return (
     <>
       {isWide?
-      <SDivOuter>
+      <SDivOuter id="side_outer">
         <SDivNoMargin>
           <Stack direction="row" alignItems="center">
           Problems:

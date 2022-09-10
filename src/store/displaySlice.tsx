@@ -4,14 +4,19 @@ export const displaySlice = createSlice({
   name: 'display',
   initialState: {
     gachaDisplay: "gacha",
+    mainElemHeight: 0,
   },
   reducers: {
     setGachaDisplay: (state, action) => {
       if (Number.isNaN(action.payload)) return;
       state.gachaDisplay = action.payload;
     },
+    setMainElemHeight: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.mainElemHeight = action.payload;
+    },
   },
 });
 
-export const { setGachaDisplay } = displaySlice.actions;
+export const { setGachaDisplay, setMainElemHeight } = displaySlice.actions;
 export default displaySlice.reducer;

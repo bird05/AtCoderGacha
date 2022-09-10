@@ -12,11 +12,15 @@ import { Main } from './components/Main';
 
 // Redux
 import { useSelector } from './store/store';
-import { useDispatch } from "react-redux";
+import { useDispatch, shallowEqual } from "react-redux";
 
 const App = memo(() => {
   //wasm.greet();
   const isWide = useMedia({ minWidth: "700px" });
+
+  // Redux==============================
+  const mainElemHeight = useSelector(state => state.display.mainElemHeight, shallowEqual);
+
   // Styled CSS==============================
   const SDivAll = styled.div`
     height: 100%;//vh;
@@ -34,15 +38,29 @@ const App = memo(() => {
     box-sizing: border-box;
     background-color: #ffffff;//blue;
   `
-  const SDivMain = styled.div`
+  /*
+  const SDivMain = styled.div<{
+    sideBar_height: number;
+  }>`
     height: ${isWide?"100vh":"100%"};
+    min-height: ${({ sideBar_height }) => sideBar_height }px;
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
     background-color: #ffffff;//green;
     border-left: 1px solid #333;
   `
-
+  */
+  const SDivMain = styled.div`
+    height: ${isWide?"100vh":"100%"};
+    min-height: ${mainElemHeight}px;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #ffffff;//green;
+    border-left: 1px solid #333;
+  `
+  
   // DOM==============================
   //console.log("App");
   return (
@@ -56,6 +74,7 @@ const App = memo(() => {
             </Routes>
           </SDivSide>
           <SDivMain>
+          {/*<SDivMain sideBar_height={mainElemHeight}>*/}
             <Main isWide={isWide}/>
           </SDivMain>
         </SDivAll>
