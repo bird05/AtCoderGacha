@@ -231,7 +231,7 @@ export const SideBar = memo((props:any) => {
       default:
         l=-1; r=10000;
     }
-    const filtered = new Array(key_arr.filter((e:any) => (l<=allProblem[e].diff && allProblem[e].diff<r)));
+    const filtered = new Array(key_arr.filter((e:any) => (allProblem[e] && (l<=allProblem[e].diff && allProblem[e].diff<r))));
     //dispatch(setCandidateProblem(filtered[0])); // ソートなしの格納
 
     // id,timeのオブジェクトの配列を作成
