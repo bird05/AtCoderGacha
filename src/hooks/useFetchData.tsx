@@ -231,8 +231,9 @@ export const useFetchAtcoder = () => {
   }
 
   // ユーザーorライバルのレート取得
+  // https://algon-320.hatenablog.com/entry/2019/04/06/011234
   const fetchRateInfo = async (user_name: string) => {
-    let url: string = "https://kyopro-ratings.herokuapp.com/json?atcoder=";
+    let url: string = "https://kyopro-ratings.jp1.su8.run/json?atcoder=";
     url += user_name;
     try{
       const res = await axios.get(url);
